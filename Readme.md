@@ -1,5 +1,4 @@
 
-![Group 61](https://github.com/user-attachments/assets/abc40d7f-3a8a-4dd1-b2a9-e2cc5f394ec0)
 # CryptoSecure
 
 ---
@@ -46,40 +45,3 @@ The model processes wallet and transaction data to calculate a **safety score** 
 4. **User-Friendly Interface**: Intuitive and accessible UI for users to check the safety scores of wallets before making transactions.
 
 ---
-
-## 🛠️ Installation & Setup
-
-### Prerequisites
-
-- **Python 3.8+**
-- **Node.js** and **npm**
-
-### Installation Steps
-
-1. **Clone repository**:
-   ```bash
-   git clone https://github.com/harsh3dev/htfHackermen
-   cd CryptoSecure
-   ```
-2. **Setting up Backend**
-   - **Dependency installation**
-   ```bash
-   pip install -r backend/requirements.txt
-   ```
-   - **Start Server**
-   ```bash
-   uvicorn backend.main:app --reload
-   ```
-3. **Setting up Frontend**
-   - **Navigation**
-     ```bash
-     cd frontend
-     ```
-   - **Install dependency**
-     ```bash
-     npm install
-     ```
-   - **Start server**
-     ```bash
-     npm run dev
-     ```
