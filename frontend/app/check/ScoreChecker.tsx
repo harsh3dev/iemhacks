@@ -29,7 +29,7 @@ export default function ScoreChecker() {
   const pollBackend = async () => {
     try {
       const response = await axios.post(
-        "https://whale-app-6i8c4.ondigitalocean.app/address/process_eth_address",
+        "https://coral-app-ejwbw.ondigitalocean.app/address/process_eth_address",
         { address: address }
       );
       
