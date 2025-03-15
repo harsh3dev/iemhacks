@@ -11,24 +11,94 @@ export default function ScoreChecker() {
   const [isLoading, setIsLoading] = useState(false)
   const [showResult, setShowResult] = useState(false)
   const [trustScore, setTrustScore] = useState(0)
+  const [error, setError] = useState('')
+  const [pollStatus, setPollStatus] = useState('')
+  // Toggle between mock and real API
+  const useMockData = false
+
+  // Mock function to generate a random trust score
+  const generateMockTrustScore = () => {
+    // Generate a random number between 0 and 100
+    return Math.floor(Math.random() * 101);
+  }
+
+  // Helper function to create a delay
+  const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  // Poll the backend API for results
+  const pollBackend = async () => {
+    try {
+      const response = await axios.post(
+        "https://whale-app-6i8c4.ondigitalocean.app/address/process_eth_address",
+        { address: address }
+      );
+      
+      return response.data;
+    } catch (error) {
+      console.error("Error polling backend:", error);
+      return null;
+    }
+  };
 
   const checkTrustScore = async () => {
     try {
         setIsLoading(true);
-        const res = await axios.post("https://king-prawn-app-jbkvg.ondigitalocean.app/process_eth_address/process_eth_address", {
-          address: address, 
-        });
-        console.log("response",res)
-        setTrustScore(res.data);
-        setIsLoading(false);
-        setShowResult(true);
+        setError('');
+        setPollStatus('Starting calculation...');
+        
+        if (useMockData) {
+          // Use mock data after a small delay to simulate network request
+          setTimeout(() => {
+            const mockScore = generateMockTrustScore();
+            console.log("Mock trust score:", mockScore);
+            setTrustScore(mockScore);
+            setIsLoading(false);
+            setShowResult(true);
+          }, 1500); // 1.5 second delay for realism
+        } else {
+          // Use the real API with polling
+          const startTime = Date.now();
+          const timeout = 10 * 60 * 1000; // 10 minutes timeout
+          
+          while (true) {
+            setPollStatus('Polling for results...');
+            const result = await pollBackend();
+            const elapsedTime = Date.now() - startTime;
+            
+            if (result) {
+              if (result.calculated) {
+                const score = parseFloat(result.score).toFixed(2);
+                console.log("API trust score:", score);
+                setTrustScore(Number(score));
+                setIsLoading(false);
+                setShowResult(true);
+                break;
+              } else {
+                setPollStatus('Calculation in progress...');
+              }
+            } else {
+              setError('Error communicating with the API. Please try again.');
+              setIsLoading(false);
+              break;
+            }
+            
+            if (elapsedTime >= timeout) {
+              setError('Calculation timed out. Please try again later.');
+              setIsLoading(false);
+              break;
+            }
+            
+            // Wait 5 seconds before polling again
+            await delay(5000);
+          }
+        }
     } catch (error) {
       console.error("Error fetching trust score:", error);
+      setError('An unexpected error occurred. Please try again.');
       setIsLoading(false);
     }
   };
   
-
   const getScoreColor = (score: number) => {
     if (score <= 50) return 'text-red-400'
     if (score <= 75) return 'text-yellow-400'
@@ -69,13 +139,17 @@ export default function ScoreChecker() {
             {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Checking...
+                  {pollStatus}
                 </>
               ) : (
                 'Check Score'
               )}
             </span>
           </button>
+          
+          {error && (
+            <div className="text-red-400 text-center mt-2">{error}</div>
+          )}
             
         </div>
 
