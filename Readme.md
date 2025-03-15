@@ -1,5 +1,4 @@
 
-![Group 61](https://github.com/user-attachments/assets/abc40d7f-3a8a-4dd1-b2a9-e2cc5f394ec0)
 # CryptoSecure
 
 ---
