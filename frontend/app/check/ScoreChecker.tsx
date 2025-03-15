@@ -42,6 +42,12 @@ export default function ScoreChecker() {
 
   const checkTrustScore = async () => {
     try {
+        // Validate if the address starts with "0x"
+        if (!address.startsWith('0x')) {
+          setError('Invalid Ethereum address. Address must start with "0x"');
+          return;
+        }
+        
         setIsLoading(true);
         setError('');
         setPollStatus('Starting calculation...');

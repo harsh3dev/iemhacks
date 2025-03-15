@@ -46,7 +46,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-800">
           {/* Copyright */}
           <p className="text-gray-400 text-sm mb-4 md:mb-0">
-            Made with ❤️ by Hackermen in IEMHACKS 3.0
+            Made with ❤️ by PyCoders in IEMHACKS 3.0
           </p>
           
           {/* Social Links */}
