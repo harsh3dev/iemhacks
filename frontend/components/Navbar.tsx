@@ -16,10 +16,6 @@ const navItems = [
         'href': '/#about'
     },
     {
-        'name': 'Pricing',
-        'href': '/#pricing'
-    },
-    {
         'name': 'Scammers',
         'href': '/scammers'
     }
